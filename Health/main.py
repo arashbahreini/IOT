@@ -11,4 +11,4 @@ while (True):
     data = provide_info()
     write_to_db(data)
     print(str(data))
-    time.sleep(5)
+    time.sleep(30)
