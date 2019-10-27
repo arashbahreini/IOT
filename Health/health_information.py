@@ -18,5 +18,4 @@ def provide_info():
         },
         "time": datetime.datetime.now()
     }
-
     return data
