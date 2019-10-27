@@ -4,11 +4,16 @@ import time
 import sys
 import os
 
+interval = 30
 sys.path.append("/home/arash/work/IOT/Health/venv/lib/python3.7/site-packages/")
 os.system('cls' if os.name == 'nt' else 'echo -e \\\\033c')
 # Todo: Error handling...
 while (True):
-    data = provide_info()
-    write_to_db(data)
-    print(str(data))
-    time.sleep(30)
+    try:
+        data = provide_info()
+        write_to_db(data)
+        print(str(data))
+        time.sleep(interval)
+    except:
+        print("Not internet conection")
+        time.sleep(interval)
