@@ -3,7 +3,7 @@ import psutil
 
 # Todo: Error handling...
 def get_ram_usage():
-    result = abs((psutil.virtual_memory().available / psutil.virtual_memory().total) * 100 - 100)
+    result = 100 - abs(((psutil.virtual_memory().available * 100) / psutil.virtual_memory().total))
     return round(result, 2)
 
 def provide_info():
