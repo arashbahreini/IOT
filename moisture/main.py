@@ -26,6 +26,7 @@ def main():
     pin1 = sh.argv2pin("")
 
     sensor = GroveMoistureSensor(pin)
+    from wrapper import *
 
     print('Detecting moisture...')
     while True:
@@ -37,6 +38,7 @@ def main():
         else:
             result = 'Wet'
         print('Moisture value: {0}, {1}'.format(m, result))
+
         time.sleep(3)
 
 if __name__ == '__main__':
