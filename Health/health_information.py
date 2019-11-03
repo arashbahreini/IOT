@@ -2,9 +2,14 @@ import datetime
 import psutil
 
 # Todo: Error handling...
-def get_ram_usage():
-    result = 100 - abs(((psutil.virtual_memory().available * 100) / psutil.virtual_memory().total))
-    return round(result, 2)
+def get_ram_info():
+    ram = psutil.virtual_memory()
+    result = {
+        "total": ram.total,
+        "available": ram.available,
+        "used": ram.used
+    }
+    return result
 
 def provide_info():
     data = {
@@ -13,9 +18,7 @@ def provide_info():
             "Usage": psutil.cpu_percent(),
             "Temprature": "--"
         },
-        "RAM": {
-            "Usage": get_ram_usage(),
-        },
+        "RAM": get_ram_info(),
         "time": datetime.datetime.now()
     }
     return data

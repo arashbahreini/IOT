@@ -15,6 +15,6 @@ while (True):
         write_to_db(data)
         print(str(data))
         time.sleep(interval)
-    except:
-        print("Not internet conection")
+    except Exception as e:
+        print(str(e))
         time.sleep(interval)
