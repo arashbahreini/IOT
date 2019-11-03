@@ -5,7 +5,11 @@ import time
 from grove.adc import ADC
 from wrapper import *
 import datetime
+<<<<<<< HEAD
 from moisture.wrapper import *
+=======
+from wrapper import *
+>>>>>>> c5e0df8847e7b563fbd38746212d4d51554844f2
 
 
 __all__ = ["GroveMoistureSensor"]
@@ -45,7 +49,7 @@ def main():
                 "moisture": m,
                 "date": datetime.datetime.now()
             }
-            write_to_db(str(data))
+            write_to_db(data)
             interval = get_check_interval()
             time.sleep(interval)
     except Exception as e:
