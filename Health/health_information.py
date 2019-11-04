@@ -19,6 +19,7 @@ def provide_info():
             "Temprature": "--"
         },
         "RAM": get_ram_info(),
-        "time": datetime.datetime.now()
+        "time": datetime.datetime.now(),
+        "success": True,
     }
     return data
