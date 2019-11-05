@@ -1,7 +1,7 @@
 import datetime
 
 
-def save_error_log(exception, file: str, method: str, message=None):
+def save_error_log(exception, file, method, message=None):
     from firebase import firebase
     firebase = firebase.FirebaseApplication("https://me-arash.firebaseio.com/", None)
     data = {
