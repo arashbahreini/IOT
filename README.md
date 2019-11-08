@@ -5,4 +5,6 @@
 ### 3. Run the script with command in terminal i.e just ``./file name``
 
 # Fix Issues
-To solve .async issue which is belong to firebase package, this [link](https://stackoverflow.com/questions/54691763/unable-to-connect-firebase-using-python-3-72) should work. 
+ - To solve .async issue which is belong to firebase package, this [link](https://stackoverflow.com/questions/54691763/unable-to-connect-firebase-using-python-3-72) should work.
+ 
+  - Fix count issue [link](https://stackoverflow.com/a/34957225/3773888)
