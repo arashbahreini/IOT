@@ -21,7 +21,7 @@ def execute_healt():
         try:
             interval = get_check_interval()
             data = provide_info()
-            write_result = write_to_db(data)
+            write_result = write_to_db("RPI-health", data)
             if write_result != None:
                 print(str(data))
             else:
@@ -34,5 +34,5 @@ def execute_healt():
                 "success": False,
                 "error": error_id
             }
-            write_to_db(data)
+            write_to_db("RPI-health", data)
             time.sleep(interval)

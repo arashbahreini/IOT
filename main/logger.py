@@ -1,15 +1,12 @@
 import datetime
+from wrapper import write_to_db
 
 
 def save_error_log(exception, file, method, message=None):
-    from firebase import firebase
-    firebase = firebase.FirebaseApplication("https://me-arash.firebaseio.com/", None)
     data = {
         "date": datetime.datetime.now(),
         "detail": str(exception),
         "file": file,
         "method": method
     }
-    result = firebase.post('/error-logs/rpi', data)
-    aaaa = str(result["name"])
-    return result
+    return write_to_db("RPI-health", data)
