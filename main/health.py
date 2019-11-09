@@ -1,5 +1,3 @@
-
-
 def execute_healt():
     import time
     import sys
