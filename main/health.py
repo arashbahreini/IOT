@@ -18,13 +18,18 @@ def execute_healt():
             os.system('cls' if os.name == 'nt' else 'echo -e \\\\033c')
             count = 0
         try:
-            interval = context.get('rpi-setting/-LtJuVPbvUAVAtqkc5MT/healthCheckPeriod')
+            interval = get_interval(context)
             data = provide_info()
             write_result = context.add("RPI-health", data)
             if write_result != None:
                 print(str(data))
             else:
-                print("Health error")
+                # print("Health error" + str(interval))
+                pass
+
+            if interval == None:
+                interval = 2
+
             time.sleep(interval)
         except Exception as e:
             print(str(e))
@@ -35,3 +40,11 @@ def execute_healt():
             }
             context.add("RPI-health", data)
             time.sleep(interval)
+
+def get_interval(context):
+    try:
+        from logger import save_error_log
+        return context.get('rpi-setting/-LtJuVPbvUAVAtqkc5MT/healthCheckPeriod')
+    except Exception as e:
+        save_error_log(e,"health.py","get_interval")
+        return 60

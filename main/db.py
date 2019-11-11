@@ -11,7 +11,7 @@ class Context:
         try:
             cred = credentials.Certificate('me-arash-firebase-adminsdk.json')
             firebase_admin.initialize_app(cred, {
-                'databaseURL': 'https://me-arash.firebaseio.com/'})
+                'databaseURL': 'https://me-arash.firebaseio.com asd/'})
         except Exception as e:
             save_error_log(e, "db.py", "__init__(self)")
 
@@ -20,14 +20,14 @@ class Context:
             ref = db.reference(path)
             return ref.push(data).key
         except Exception as e:
-            save_error_log(e, "db.py", "add(self, path, data)")
+            save_error_log(e, "db.py", "add(self, " + path + ", " + str(data) + ")")
 
     def delete(self, path, key):
         try:
             ref = db.reference(path)
             ref.child(key).delete()
         except Exception as e:
-            save_error_log(e, "db.py", "delete(self, path, key)")
+            save_error_log(e, "db.py", "delete(self, " + path + ", " + key + ")")
 
     def update(self):
         pass
@@ -37,4 +37,4 @@ class Context:
             ref = db.reference(path)
             return ref.get()
         except Exception as e:
-            save_error_log(e, "db.py", "get(self, path)")
+            save_error_log(e, "db.py", "get(self, " + path + ")")
