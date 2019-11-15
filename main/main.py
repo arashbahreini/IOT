@@ -1,4 +1,3 @@
-
 from health import execute_healt
 
 print("Wich applications do you prefer to run ?")
