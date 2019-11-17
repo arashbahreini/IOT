@@ -1,9 +1,9 @@
 import firebase_admin
 from firebase_admin import credentials
-from firebase_admin import db
 from logger import save_error_log
 from firebase_admin import firestore
 import datetime
+import json
 
 class Context:
     cred = {}
@@ -12,8 +12,6 @@ class Context:
     def __init__(self):
         try:
             cred = credentials.Certificate('me-arash-firebase-adminsdk.json')
-            # firebase_admin.initialize_app(cred, {
-            #     'databaseURL': 'https://me-arash.firebaseio.com/'})
             firebase_admin.initialize_app(cred, {
                 'projectId': "me-arash",
             })
@@ -23,13 +21,10 @@ class Context:
 
     def add(self, path, data):
         try:
-            print(path)
-            doc_ref = self.db_firestore.collection(u'users').document(u'alovelace')
-            # doc_ref = self.db.collection(u'aaa').document(str(datetime.datetime.now()))
+            doc_ref = self.db_firestore.collection(
+                path).document(str(datetime.datetime.now().strftime("%Y%m%d%H%M%S")))
             doc_ref.set(data)
             return doc_ref
-            # ref = db.reference(path)
-            # return ref.push(data).key
         except Exception as e:
             save_error_log(e, "db.py", "add(self, " + path +
                            ", " + str(data) + ")", "", True)
@@ -45,9 +40,9 @@ class Context:
     def update(self):
         pass
 
-    def get(self, path):
+    def get(self, collection, document):
         try:
-            ref = db.reference(path)
-            return ref.get()
+            doc_ref = self.db_firestore.collection(collection).document(document)
+            return doc_ref.get().to_dict()
         except Exception as e:
-            save_error_log(e, "db.py", "get(self, " + path + ")")
+            save_error_log(e, "db.py", "get(self, " + collection + "/" + document + ")")

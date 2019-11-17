@@ -1,0 +1,20 @@
+{
+  "-LtJuVPbvUAVAtqkc5MT" : {
+    "healthCheckPeriod" : 1,
+    "moistureInformation" : [ {
+      "max" : 700,
+      "min" : 300,
+      "name" : "Sensor in humid soil"
+    }, {
+      "max" : 950,
+      "min" : 700,
+      "name" : "Sensor in water"
+    }, {
+      "max" : 300,
+      "min" : 0,
+      "name" : "Sensor in dry soil"
+    } ],
+    "moisturePeriod" : 10,
+    "name" : "Yadolla"
+  }
+}

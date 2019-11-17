@@ -24,7 +24,6 @@ def execute_healt():
             if write_result != None:
                 print(str(data))
             else:
-                # print("Health error" + str(interval))
                 pass
 
             if interval == None:
@@ -42,9 +41,10 @@ def execute_healt():
             time.sleep(interval)
 
 def get_interval(context):
+    from logger import save_error_log
     try:
-        from logger import save_error_log
-        return context.get('rpi-setting/-LtJuVPbvUAVAtqkc5MT/healthCheckPeriod')
+        result = context.get('rpi-setting', "healthCheckPeriod")['value']
+        return int(result)
     except Exception as e:
         save_error_log(e,"health.py","get_interval")
         return 60
