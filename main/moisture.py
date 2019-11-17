@@ -4,8 +4,6 @@ import sys
 import time
 from grove.adc import ADC
 import datetime
-from moisture.wrapper import *
-from wrapper import *
 from logger import *
 
 __all__ = ["GroveMoistureSensor"]
@@ -25,12 +23,12 @@ class GroveMoistureSensor:
 Grove = GroveMoistureSensor
 
 
-def main():
+def main(context):
+    
+    from grove.helper import SlotHelper        
+    
+    interval = 1
     try:
-        from db import Context
-        from grove.helper import SlotHelper
-
-        context = Context()
         sh = SlotHelper(SlotHelper.ADC)
         pin = sh.argv2pin()
 
@@ -45,18 +43,18 @@ def main():
                 result = 'Moist'
             else:
                 result = 'Wet'
-            print('Moisture value: {0}, {1}'.format(m, result))
+            #print('Moisture value: {0}, {1}'.format(m, result))
             data = {
                 "moisture": m,
                 "date": datetime.datetime.now()
             }
-            write_result = context.add("RPI-health", data)
+            write_result = context.add("RPI-moisture", data)
             if write_result != None:
                 print(str(data))
             else:
                 pass
-
-            interval = get_interval(context)
+                
+            interval = int(context.get('rpi-setting', "healthCheckPeriod")['value'])
             time.sleep(interval)
     except Exception as e:
         print(str(e))
@@ -79,5 +77,6 @@ def get_interval(context):
         result = context.get('rpi-setting', "healthCheckPeriod")['value']
         return int(result)
     except Exception as e:
-        save_error_log(e, "health.py", "get_interval")
-        return 60
+		print("111111111111111111111")
+		save_error_log(e, "health.py", "get_interval")
+		return 60

@@ -1,8 +1,7 @@
-def execute_healt():
+def execute_healt(context):
     import time
     import sys
     import os
-    from db import Context
     from health_information import provide_info
     from logger import save_error_log
 
@@ -11,7 +10,6 @@ def execute_healt():
     os.system('cls' if os.name == 'nt' else 'echo -e \\\\033c')
 
     count = 0
-    context = Context()
     while True:
         count += 1
         if count >= 10:
