@@ -9,6 +9,8 @@ from wrapper import *
 from logger import *
 
 __all__ = ["GroveMoistureSensor"]
+
+
 class GroveMoistureSensor:
     def __init__(self, channel):
         self.channel = channel
@@ -19,15 +21,18 @@ class GroveMoistureSensor:
         value = self.adc.read_voltage(self.channel)
         return value
 
+
 Grove = GroveMoistureSensor
 
 
 def main():
     try:
+        from db import Context
         from grove.helper import SlotHelper
+
+        context = Context()
         sh = SlotHelper(SlotHelper.ADC)
         pin = sh.argv2pin()
-        pin1 = sh.argv2pin("")
 
         sensor = GroveMoistureSensor(pin)
 
@@ -45,18 +50,34 @@ def main():
                 "moisture": m,
                 "date": datetime.datetime.now()
             }
-            write_to_db(data)
-            interval = get_check_interval()
+            write_result = context.add("RPI-health", data)
+            if write_result != None:
+                print(str(data))
+            else:
+                pass
+
+            interval = get_interval(context)
             time.sleep(interval)
     except Exception as e:
-        error_id = save_error_log(e, "moisture.py", "...")
+        print(str(e))
+        error_id = save_error_log(e, "Health/moisture.py", "...")
         data = {
             "success": False,
             "error": error_id
         }
-        write_to_db(data)
-        write_to_db(str(data))
-        print(str(e))
+        context.add("RPI-moisture", data)
+        time.sleep(interval)
+
 
 if __name__ == '__main__':
     main()
+
+
+def get_interval(context):
+    from logger import save_error_log
+    try:
+        result = context.get('rpi-setting', "healthCheckPeriod")['value']
+        return int(result)
+    except Exception as e:
+        save_error_log(e, "health.py", "get_interval")
+        return 60
