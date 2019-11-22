@@ -14,7 +14,6 @@ if (run_moisture == 'y'):
     moisture_thread = threading.Thread(target=main,args=(context,))
     moisture_thread.start()
 
-
 if (run_health == 'y'):
      health_thread = threading.Thread(target=execute_healt, args=(context,))
      health_thread.start()

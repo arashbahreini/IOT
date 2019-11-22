@@ -3,7 +3,6 @@ import os
 import json
 import datetime
 
-
 def save_error_log(exception, file, method, message=None, cache_it=False):
     data = {
         "date": datetime.datetime.now(),
@@ -15,8 +14,11 @@ def save_error_log(exception, file, method, message=None, cache_it=False):
     # Only use it when application is unable to store logs in db.
     if cache_it:
         write_to_file(str(data))
-        
+    else:
+        pass
+
     return 1  # write_to_db("RPI-health", data)
+
 
 
 def write_to_file(data):

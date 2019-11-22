@@ -5,6 +5,7 @@ from firebase_admin import firestore
 import datetime
 import json
 
+
 class Context:
     cred = {}
     db_firestore = {}
@@ -21,17 +22,39 @@ class Context:
 
     def add(self, path, data):
         try:
-            doc_ref = self.db_firestore.collection(
-                path).document(str(datetime.datetime.now().strftime("%Y%m%d%H%M%S")))
+            id = str(datetime.datetime.now().strftime("%Y%m%d%H%M%S"))
+            doc_ref = self.db_firestore.collection(path).document(id)
             doc_ref.set(data)
+            self.update_catalog(path, 'add', id)
             return doc_ref
         except Exception as e:
             save_error_log(e, "db.py", "add(self, " + path +
                            ", " + str(data) + ")", "", True)
 
+    def update_catalog(self, path, operator, id):
+        try:
+            db_name = 'db-catalogs'
+            data = self.get(db_name, path)
+            if data:
+                data_ref = self.db_firestore.collection(db_name).document(path)
+                data_to_update = {
+                    "count": int(data['count'] + 1),
+                    "last_update": id
+                }
+                data_ref.update(data_to_update)
+            else:
+                data = {
+                    "count": 1,
+                    "last_update": id
+                }
+                self.db_firestore.collection(db_name).document(path).set(data)
+        except Exception as e:
+            save_error_log(e, "db.py", "update_catalog(self, " + path +
+                           ", " + str(data) + ")", "", True)
+
     def delete(self, path, key):
         try:
-            ref = db.reference(path)
+            ref = self.db_firestore.reference(path)
             ref.child(key).delete()
         except Exception as e:
             save_error_log(
@@ -42,7 +65,9 @@ class Context:
 
     def get(self, collection, document):
         try:
-            doc_ref = self.db_firestore.collection(collection).document(document)
+            doc_ref = self.db_firestore.collection(
+                collection).document(document)
             return doc_ref.get().to_dict()
         except Exception as e:
-            save_error_log(e, "db.py", "get(self, " + collection + "/" + document + ")")
+            save_error_log(e, "db.py", "get(self, " +
+                           collection + "/" + document + ")")
