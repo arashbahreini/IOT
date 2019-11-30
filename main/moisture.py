@@ -54,7 +54,8 @@ def main(context):
             else:
                 pass
                 
-            interval = int(context.get('rpi-setting', "healthCheckPeriod")['value'])
+            interval = int(context.get('rpi-setting', "moisturePeriod")['value'])
+            print("Moistudr interval : " + str(interval))
             time.sleep(interval)
     except Exception as e:
         print(str(e))
